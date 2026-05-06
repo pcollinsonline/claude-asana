@@ -1,0 +1,27 @@
+{
+  "name": "monorepo-marketplace",
+  "description": "Local plugin marketplace for the monorepo",
+  "owner": {
+    "name": "pcollinsonline"
+  },
+  "plugins": [
+    {
+      "name": "plugins-utility",
+      "description": "Logging hooks for all Claude Code lifecycle events",
+      "version": "1.0.0",
+      "source": "./plugins-utility"
+    },
+    {
+      "name": "plugins-claude",
+      "description": "Claude Code reference docs loader",
+      "version": "1.0.0",
+      "source": "./plugins-claude"
+    },
+    {
+      "name": "plugins-dev-tools",
+      "description": "Developer workflow skills and hooks for pnpm monorepos",
+      "version": "1.0.0",
+      "source": "./plugins-dev-tools"
+    }
+  ]
+}

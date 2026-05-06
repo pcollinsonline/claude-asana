@@ -1,0 +1,30 @@
+{
+  "name": "@marketplace/plugins-dev-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Developer workflow skills and hooks for pnpm monorepos",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "build": "tsx src/build.ts",
+    "clean": "del .turbo coverage",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.2.104",
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "@packages/plugins-base": "workspace:*",
+    "neverthrow": "8.2.0",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@toolchain/eslint-config": "workspace:*",
+    "@toolchain/typescript-config": "workspace:*",
+    "@toolchain/vitest-config": "workspace:*",
+    "@types/node": "25.6.0",
+    "esbuild": "0.28.0",
+    "tsx": "4.21.0"
+  }
+}

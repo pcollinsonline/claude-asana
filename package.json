@@ -1,0 +1,41 @@
+{
+  "name": "claude-asana",
+  "private": true,
+  "type": "module",
+  "description": "Shared Claude Code plugins (utility, dev-tools, claude-docs) and the build infrastructure that bundles them",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pcollinsonline/claude-asana.git"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "format": "prettier --write .",
+    "lint": "turbo run lint",
+    "one-version:check": "one-version check",
+    "prepare": "husky",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "20.5.0",
+    "@commitlint/config-conventional": "20.5.0",
+    "del-cli": "7.0.0",
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
+    "one-version": "0.3.1",
+    "prettier": "3.8.2",
+    "prettier-plugin-packagejson": "3.0.2",
+    "turbo": "2.9.6"
+  },
+  "packageManager": "pnpm@10.29.3+sha512.498e1fb4cca5aa06c1dcf2611e6fafc50972ffe7189998c409e90de74566444298ffe43e6cd2acdc775ba1aa7cc5e092a8b7054c811ba8c5770f84693d33d2dc",
+  "engines": {
+    "node": ">= 22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

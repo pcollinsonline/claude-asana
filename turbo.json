@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": ["CLAUDE_PLUGIN_DATA"],
+  "globalDependencies": [".env"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "lint": {
+      "dependsOn": ["build"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["./src/**"],
+      "outputs": ["./coverage/**"]
+    },
+    "typecheck": {
+      "inputs": ["./src/**"],
+      "dependsOn": ["build"]
+    }
+  }
+}
