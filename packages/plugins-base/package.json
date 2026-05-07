@@ -20,11 +20,16 @@
     "neverthrow": "8.2.0"
   },
   "devDependencies": {
-    "@toolchain/eslint-config": "workspace:*",
-    "@toolchain/typescript-config": "workspace:*",
-    "@toolchain/vitest-config": "workspace:*",
+    "@codeforbreakfast/eslint-effect": "0.8.5",
     "@types/node": "25.6.0",
+    "@vitest/coverage-v8": "4.1.4",
+    "@vitest/eslint-plugin": "1.6.15",
+    "dr-mike": "0.1.2",
     "esbuild": "0.28.0",
-    "tsx": "4.21.0"
+    "eslint": "10.3.0",
+    "eslint-plugin-turbo": "2.9.6",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
   }
 }

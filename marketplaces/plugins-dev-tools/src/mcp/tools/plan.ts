@@ -8,11 +8,10 @@
 
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 
+import { parseFrontmatter } from '@packages/plugins-base'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { z } from 'zod'
-
-import { parseFrontmatter } from '@packages/plugins-base'
 
 import { getRepoRoot } from './_shared.js'
 

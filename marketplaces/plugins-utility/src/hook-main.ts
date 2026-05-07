@@ -1,6 +1,5 @@
-import path from 'node:path'
-
 import { parseHookInput, readStdin } from '@packages/plugins-base'
+import path from 'node:path'
 
 import { createHookLogger } from './create-hook-logger.js'
 

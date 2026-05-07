@@ -1,6 +1,5 @@
-import { type ResultAsync, errAsync, okAsync } from 'neverthrow'
-
 import { type LogFileError, createLogStage } from '@packages/plugins-base'
+import { type ResultAsync, errAsync, okAsync } from 'neverthrow'
 
 import { type ConfigError, isLoggingEnabled } from './config.js'
 import { LOG_DIR } from './paths.js'

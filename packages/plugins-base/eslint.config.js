@@ -1,7 +1,7 @@
-import config from '@toolchain/eslint-config/profile/node'
+import drMike from 'dr-mike/eslint'
 
 export default [
-  ...config,
+  ...(await drMike({ effect: true, turborepo: true })),
   {
     languageOptions: {
       parserOptions: {

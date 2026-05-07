@@ -12,9 +12,6 @@ Source monorepo for a set of Claude Code plugins (`plugins-utility`, `plugins-cl
 | `marketplaces/plugins-utility/` | Plugin: logging hooks for all Claude Code lifecycle events |
 | `marketplaces/docs/` | Architecture documentation (`plugins.md`) — start here |
 | `packages/plugins-base/` | Shared build pipeline (`buildPlugin`) and runtime utilities (`readStdin`, `parseHookInput`, etc.) used by every plugin |
-| `toolchain/eslint-config/` | Shared ESLint configuration (Node profile) |
-| `toolchain/typescript-config/` | Shared `tsconfig` presets |
-| `toolchain/vitest-config/` | Shared Vitest configuration |
 | `scripts/claude-dev.sh` | Launch Claude Code with `--plugin-dir` so plugins load directly from build output (bypasses cache) |
 | `scripts/plugins-refresh.sh` | Rebuild + reinstall enabled marketplace plugins |
 
@@ -66,9 +63,9 @@ See [`marketplaces/docs/plugins.md`](./marketplaces/docs/plugins.md) for the ful
 | `scripts/claude-dev.sh` | Launch Claude Code with plugins loaded from disk |
 | `scripts/plugins-refresh.sh` | Rebuild and reinstall enabled marketplace plugins |
 
-## Toolchain note
+## Toolchain
 
-The `toolchain/` directory is a vendored copy of the same configs published as the [`dr-mike`](https://www.npmjs.com/package/dr-mike) npm package. Once `dr-mike` is stable, swap the `@toolchain/*` workspace dependencies for the published package and delete `toolchain/`.
+Shared ESLint, TypeScript, and Vitest configuration comes from the [`dr-mike`](https://www.npmjs.com/package/dr-mike) npm package (`dr-mike/eslint`, `dr-mike/tsconfig/node`, `dr-mike/vitest`).
 
 ## Conventions
 
