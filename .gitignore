@@ -37,9 +37,11 @@ dist/
 # vitest test coverage
 coverage/
 
-# built plugin outputs inside the local marketplace
-marketplaces/monorepo-marketplace/*/
-!marketplaces/monorepo-marketplace/.claude-plugin/
+# committed plugin bundles for org-wide marketplace distribution
+# (overrides the global `dist/` rule above so consumers can install from GitHub
+# without cloning + building locally)
+!marketplaces/monorepo-marketplace/**/dist/
+!marketplaces/monorepo-marketplace/**/dist/**
 
 # ai tooling
 .ai/

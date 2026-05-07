@@ -20,10 +20,11 @@ RED='\033[0;31m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-MARKETPLACE="monorepo-marketplace"
+MARKETPLACE_NAME="claude-asana"
+MARKETPLACE_DIR="monorepo-marketplace"
 
 # ---------------------------------------------------------------------------
-# 1. Discover monorepo-marketplace plugins from settings files
+# 1. Discover claude-asana plugins from settings files
 # ---------------------------------------------------------------------------
 PLUGINS=()  # each entry: "plugin-name@marketplace|scope"
 
@@ -34,12 +35,12 @@ for pair in ".claude/settings.json|project" ".claude/settings.local.json|local";
   [ -f "$FILEPATH" ] || continue
 
   while IFS= read -r key; do
-    [[ "$key" == *"@$MARKETPLACE"* ]] && PLUGINS+=("${key}|${SCOPE}")
+    [[ "$key" == *"@$MARKETPLACE_NAME"* ]] && PLUGINS+=("${key}|${SCOPE}")
   done < <(jq -r '.enabledPlugins // {} | keys[]' "$FILEPATH")
 done
 
 if [ ${#PLUGINS[@]} -eq 0 ]; then
-  echo -e "${YELLOW}No @${MARKETPLACE} plugins found in settings files.${NC}"
+  echo -e "${YELLOW}No @${MARKETPLACE_NAME} plugins found in settings files.${NC}"
   exit 0
 fi
 
@@ -83,9 +84,9 @@ echo -e "${GREEN}Build complete.${NC}\n"
 PLUGIN_DIR_ARGS=()
 for entry in "${PLUGINS[@]}"; do
   PLUGIN="${entry%%|*}"
-  # Extract plugin name: "plugins-dev-tools@monorepo-marketplace" -> "plugins-dev-tools"
+  # Extract plugin name: "plugins-dev-tools@claude-asana" -> "plugins-dev-tools"
   NAME="${PLUGIN%%@*}"
-  DIR="$PROJECT_ROOT/marketplaces/$MARKETPLACE/$NAME"
+  DIR="$PROJECT_ROOT/marketplaces/$MARKETPLACE_DIR/$NAME"
 
   if [ ! -d "$DIR" ]; then
     echo -e "${RED}Error: built plugin directory not found: ${DIR}${NC}"
@@ -99,7 +100,7 @@ echo -e "${CYAN}Launching claude with local plugins:${NC}"
 for entry in "${PLUGINS[@]}"; do
   PLUGIN="${entry%%|*}"
   NAME="${PLUGIN%%@*}"
-  echo -e "  ${GREEN}${NAME}${NC} → marketplaces/${MARKETPLACE}/${NAME}"
+  echo -e "  ${GREEN}${NAME}${NC} → marketplaces/${MARKETPLACE_DIR}/${NAME}"
 done
 echo ""
 

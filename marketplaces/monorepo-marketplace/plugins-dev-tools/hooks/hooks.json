@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/pre-tool-use.js",
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  }
+}

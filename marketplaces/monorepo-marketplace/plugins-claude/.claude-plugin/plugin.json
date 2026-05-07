@@ -1,0 +1,6 @@
+{
+  "description": "Claude Code reference docs and README enforcement",
+  "license": "UNLICENSED",
+  "name": "plugins-claude",
+  "version": "1.0.0+7a4ecd7"
+}

@@ -1,6 +1,6 @@
 {
-  "name": "monorepo-marketplace",
-  "description": "Local plugin marketplace for the monorepo",
+  "name": "claude-asana",
+  "description": "Claude Code plugins for pnpm monorepos: dev-tools, utility, claude",
   "owner": {
     "name": "pcollinsonline"
   },
@@ -9,19 +9,19 @@
       "name": "plugins-utility",
       "description": "Logging hooks for all Claude Code lifecycle events",
       "version": "1.0.0",
-      "source": "./plugins-utility"
+      "source": "./marketplaces/monorepo-marketplace/plugins-utility"
     },
     {
       "name": "plugins-claude",
       "description": "Claude Code reference docs loader",
       "version": "1.0.0",
-      "source": "./plugins-claude"
+      "source": "./marketplaces/monorepo-marketplace/plugins-claude"
     },
     {
       "name": "plugins-dev-tools",
       "description": "Developer workflow skills and hooks for pnpm monorepos",
       "version": "1.0.0",
-      "source": "./plugins-dev-tools"
+      "source": "./marketplaces/monorepo-marketplace/plugins-dev-tools"
     }
   ]
 }

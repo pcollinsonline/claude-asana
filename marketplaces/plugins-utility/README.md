@@ -39,7 +39,7 @@ marketplaces/plugins-utility/
 This plugin is opt-in per developer (not installed by default):
 
 ```shell
-claude plugin install plugins-utility@monorepo-marketplace --scope local
+claude plugin install plugins-utility@claude-asana --scope local
 ```
 
 ## Configuration
