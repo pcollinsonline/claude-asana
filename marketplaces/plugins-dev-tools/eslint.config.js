@@ -1,8 +1,8 @@
-import drMike from 'dr-mike/eslint'
+import drMike from 'dr-mike/eslint/full'
 
 export default [
   { ignores: ['skills/'] },
-  ...(await drMike({ effect: true, turborepo: true })),
+  ...drMike,
   {
     languageOptions: {
       parserOptions: {
