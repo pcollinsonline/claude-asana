@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "dev-tools": {
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/dist/mcp/server.js"
+      ],
+      "command": "node"
+    }
+  }
+}

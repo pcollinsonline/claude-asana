@@ -435,8 +435,8 @@ The registry lists available plugins:
 
 ```json
 {
-  "name": "monorepo-marketplace",
-  "description": "Local plugin marketplace for the monorepo",
+  "name": "claude-asana",
+  "description": "Claude Code plugins for pnpm monorepos: dev-tools, utility, claude",
   "owner": { "name": "..." },
   "plugins": [
     { "name": "plugins-utility", "description": "...", "version": "1.0.0", "source": "./plugins-utility" },
@@ -450,10 +450,9 @@ Each `source` points to a build output directory relative to the marketplace roo
 
 ### Gitignore strategy
 
-Only the registry file is committed. All plugin bundle directories are gitignored via a pattern like `marketplaces/monorepo-marketplace/*/` with an exclusion for `.claude-plugin/`. This means:
-- The registry is shared across the team via version control
-- Artifacts are local to each developer's machine
-- Developers must build before plugins are usable (handled by `pnpm build`)
+Plugin bundle directories under `marketplaces/monorepo-marketplace/` **are committed** (see `.gitignore` — the global `dist/` rule is overridden for this subtree). This lets external consumers install via the `github` source without cloning + building locally. The global `dist/` rule still applies to in-source build outputs (`marketplaces/plugins-*/dist/`, `packages/*/dist/`).
+
+Trade-off: every commit that changes plugin source produces a bundle diff. Mitigation (planned): a future CI workflow will own bundle commits on merge to `main`, keeping feature-branch diffs source-only.
 
 ---
 
@@ -466,7 +465,7 @@ The marketplace and its plugins are registered declaratively in `.claude/setting
 ```json
 {
   "extraKnownMarketplaces": {
-    "monorepo-marketplace": {
+    "claude-asana": {
       "source": {
         "source": "directory",
         "path": "./marketplaces/monorepo-marketplace"
@@ -474,9 +473,9 @@ The marketplace and its plugins are registered declaratively in `.claude/setting
     }
   },
   "enabledPlugins": {
-    "plugins-utility@monorepo-marketplace": true,
-    "plugins-claude@monorepo-marketplace": true,
-    "plugins-dev-tools@monorepo-marketplace": true
+    "plugins-utility@claude-asana": true,
+    "plugins-claude@claude-asana": true,
+    "plugins-dev-tools@claude-asana": true
   }
 }
 ```
@@ -674,7 +673,7 @@ Claude Code's bash safety heuristics can cause approval prompts even for pre-app
 | Skill directory | kebab-case skill name | `clear-logs/` |
 | Agent file | kebab-case with `-agent` suffix | `create-pr-agent.md` |
 | Build output | same name without `@marketplace/` | `plugins-utility/` |
-| Marketplace identifier | `<name>@<marketplace>` | `plugins-utility@monorepo-marketplace` |
+| Marketplace identifier | `<name>@<marketplace>` | `plugins-utility@claude-asana` |
 
 ---
 
@@ -690,6 +689,6 @@ Claude Code's bash safety heuristics can cause approval prompts even for pre-app
 
 5. **Register in the marketplace** — add an entry to `marketplace.json` with `name`, `description`, `version`, and `source` pointing to the build output directory.
 
-6. **Enable** — add `"<name>@monorepo-marketplace": true` to `enabledPlugins` in `.claude/settings.json`.
+6. **Enable** — add `"<name>@claude-asana": true` to `enabledPlugins` in `.claude/settings.json`.
 
 The build system discovers everything else automatically from the filesystem layout and markdown content.

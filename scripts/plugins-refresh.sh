@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Rebuild and reinstall all monorepo-marketplace plugins.
+# Rebuild and reinstall all claude-asana marketplace plugins.
 #
 # During plugin development, this script provides a fast way to pick up the
 # latest source changes without incrementing package versions. It builds the
@@ -24,7 +24,7 @@ if [ ! -x "$CLAUDE" ]; then
   exit 1
 fi
 
-MARKETPLACE="monorepo-marketplace"
+MARKETPLACE="claude-asana"
 PLUGINS=()  # each entry: "plugin-name@marketplace|scope"
 
 # ---------------------------------------------------------------------------

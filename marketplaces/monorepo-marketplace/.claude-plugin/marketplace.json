@@ -1,6 +1,6 @@
 {
-  "name": "monorepo-marketplace",
-  "description": "Local plugin marketplace for the monorepo",
+  "name": "claude-asana",
+  "description": "Claude Code plugins for pnpm monorepos: dev-tools, utility, claude",
   "owner": {
     "name": "pcollinsonline"
   },

@@ -1,0 +1,138 @@
+{
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/notification.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/permission-request.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/post-tool-use.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/post-tool-use-failure.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/pre-compact.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/pre-tool-use.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/session-end.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/session-start.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Setup": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/setup.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/stop.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/subagent-start.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/subagent-stop.js",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/hooks/user-prompt-submit.js",
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  }
+}

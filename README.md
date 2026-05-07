@@ -1,35 +1,55 @@
 # claude-asana
 
-Source monorepo for a set of Claude Code plugins (`plugins-utility`, `plugins-claude`, `plugins-dev-tools`) and the build infrastructure that bundles them. Designed to be shared across consumer monorepos via git submodule, subtree, or by building and publishing the marketplace bundle.
+Claude Code plugins for pnpm monorepos: `plugins-utility` (lifecycle logging), `plugins-claude` (reference-doc enforcement), and `plugins-dev-tools` (developer-workflow skills, agents, and an MCP server). Distributed as an org-wide marketplace from this repo — bundles are committed alongside source, so consumers install with no clone or build.
+
+## Consuming this marketplace
+
+Paste this into your project's `.claude/settings.json` (or `~/.claude/settings.json` for user scope):
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "claude-asana": {
+      "source": {
+        "source": "github",
+        "repo": "pcollinsonline/claude-asana",
+        "path": "marketplaces/monorepo-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "plugins-utility@claude-asana": true,
+    "plugins-claude@claude-asana": true,
+    "plugins-dev-tools@claude-asana": true
+  }
+}
+```
+
+Run `claude` and check `/plugin list` — the three plugins should appear and be enabled. No clone, no build, no auth (this repo is public).
+
+To pick a subset, drop entries from `enabledPlugins`. To pin to a specific commit, add `"ref": "<sha>"` next to `"repo"` in the source.
 
 ## Structure
 
 | Path | Purpose |
 |---|---|
-| `marketplaces/monorepo-marketplace/` | Plugin registry (`marketplace.json`) — bundle output is gitignored |
-| `marketplaces/plugins-claude/` | Plugin: Claude Code reference docs and README enforcement |
-| `marketplaces/plugins-dev-tools/` | Plugin: developer workflow skills, agents, and MCP server for pnpm monorepos |
-| `marketplaces/plugins-utility/` | Plugin: logging hooks for all Claude Code lifecycle events |
-| `marketplaces/docs/` | Architecture documentation (`plugins.md`) — start here |
+| `marketplaces/monorepo-marketplace/` | Plugin registry (`marketplace.json`) **and committed bundle output** — what consumers fetch |
+| `marketplaces/plugins-claude/` | Plugin source: Claude Code reference docs and README enforcement |
+| `marketplaces/plugins-dev-tools/` | Plugin source: developer workflow skills, agents, and MCP server for pnpm monorepos |
+| `marketplaces/plugins-utility/` | Plugin source: logging hooks for all Claude Code lifecycle events |
+| `marketplaces/docs/` | Architecture documentation (`plugins.md`) — start here for plugin internals |
 | `packages/plugins-base/` | Shared build pipeline (`buildPlugin`) and runtime utilities (`readStdin`, `parseHookInput`, etc.) used by every plugin |
 | `scripts/claude-dev.sh` | Launch Claude Code with `--plugin-dir` so plugins load directly from build output (bypasses cache) |
 | `scripts/plugins-refresh.sh` | Rebuild + reinstall enabled marketplace plugins |
 
-## Quickstart
+## Local development
 
-```sh
-pnpm install
-pnpm build
-```
-
-After the first build, plugin bundles appear under `marketplaces/monorepo-marketplace/<plugin-name>/`. These are gitignored — every developer rebuilds locally.
-
-To use the plugins in a Claude Code session, add this monorepo's marketplace to your project's `.claude/settings.json`:
+For working on the plugins themselves (rather than consuming them), point your settings at the local checkout via the `directory` source:
 
 ```json
 {
   "extraKnownMarketplaces": {
-    "monorepo-marketplace": {
+    "claude-asana": {
       "source": {
         "source": "directory",
         "path": "<path-to-this-repo>/marketplaces/monorepo-marketplace"
@@ -37,14 +57,21 @@ To use the plugins in a Claude Code session, add this monorepo's marketplace to 
     }
   },
   "enabledPlugins": {
-    "plugins-utility@monorepo-marketplace": true,
-    "plugins-claude@monorepo-marketplace": true,
-    "plugins-dev-tools@monorepo-marketplace": true
+    "plugins-utility@claude-asana": true,
+    "plugins-claude@claude-asana": true,
+    "plugins-dev-tools@claude-asana": true
   }
 }
 ```
 
-For day-to-day plugin development, use `scripts/claude-dev.sh` to launch Claude Code with `--plugin-dir` flags pointing directly at build output (no cache).
+Then:
+
+```sh
+pnpm install
+pnpm build
+```
+
+For day-to-day iteration, use `scripts/claude-dev.sh` instead — it launches Claude Code with `--plugin-dir` flags pointing directly at build output (no cache).
 
 ## Architecture
 
