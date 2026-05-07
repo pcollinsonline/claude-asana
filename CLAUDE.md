@@ -36,8 +36,8 @@ For iterative development, prefer `scripts/claude-dev.sh` — it launches Claude
 - **Strict mode** is enabled — no `any`, no non-null assertions without justification.
 - **ESNext target** — use modern JS features (e.g. `using` for resource management).
 - **ESM imports** — always use `.js` extensions in import paths.
-- **ESLint config** — import from `@toolchain/eslint-config/profile/node`.
+- **ESLint config** — import from `dr-mike/eslint`.
 
 ## Toolchain
 
-The `toolchain/` workspace mirrors the [`dr-mike`](https://www.npmjs.com/package/dr-mike) published package. When swapping to the published version, replace `@toolchain/eslint-config` → `dr-mike/eslint`, `@toolchain/typescript-config/tsconfig-node22.json` → `dr-mike/tsconfig/node`, `@toolchain/vitest-config` → `dr-mike/vitest`, then delete `toolchain/`.
+Shared ESLint, TypeScript, and Vitest config come from the [`dr-mike`](https://www.npmjs.com/package/dr-mike) npm package: `dr-mike/eslint`, `dr-mike/tsconfig/node`, `dr-mike/vitest`.

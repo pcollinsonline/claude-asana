@@ -1,6 +1,5 @@
-import path from 'node:path'
-
 import { buildPlugin } from '@packages/plugins-base/build'
+import path from 'node:path'
 
 const distDir = path.resolve(
   import.meta.dirname,

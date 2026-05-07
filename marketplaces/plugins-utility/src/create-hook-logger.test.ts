@@ -1,6 +1,5 @@
-import { err, ok } from 'neverthrow'
-
 import { createLogStage } from '@packages/plugins-base'
+import { err, ok } from 'neverthrow'
 
 import type * as Config from './config.js'
 

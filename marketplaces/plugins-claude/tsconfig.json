@@ -1,5 +1,5 @@
 {
-  "extends": "@toolchain/typescript-config/tsconfig-node22.json",
+  "extends": "dr-mike/tsconfig/node",
   "compilerOptions": {
     "types": ["node", "vitest/globals"]
   }

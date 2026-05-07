@@ -1,7 +1,6 @@
+import { resolveProjectPath } from '@packages/plugins-base'
 import { type Result, err, fromThrowable, ok } from 'neverthrow'
 import { readFileSync } from 'node:fs'
-
-import { resolveProjectPath } from '@packages/plugins-base'
 
 import { CONFIG_PATH } from './paths.js'
 

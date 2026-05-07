@@ -1,9 +1,8 @@
+import { resolveProjectPath } from '@packages/plugins-base'
 import JSZip from 'jszip'
 import { errAsync, okAsync, ResultAsync } from 'neverthrow'
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-
-import { resolveProjectPath } from '@packages/plugins-base'
 
 import { ARCHIVE_DIR, LOG_DIR } from '../../paths.js'
 
