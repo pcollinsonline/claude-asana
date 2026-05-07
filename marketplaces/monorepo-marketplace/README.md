@@ -1,8 +1,8 @@
-# claude-asana
+# Bundle output
 
-Local Claude Code plugin marketplace for the monorepo. Each plugin source lives under `marketplaces/<plugin-name>/` — running `pnpm build` in that workspace outputs a bundle into this directory.
+This directory holds the **built plugin bundles** for the `claude-asana` marketplace. The marketplace registry itself lives at the repo root (`.claude-plugin/marketplace.json`).
 
-The only hand-maintained files here are `.claude-plugin/marketplace.json` (the plugin registry) and this README. Everything else is generated and will be overwritten on build.
+Each plugin source lives under `marketplaces/<plugin-name>/` — running `pnpm build` in that workspace outputs a bundle into one of the `plugins-*/` subdirectories here. Everything in those subdirectories is generated and overwritten on each build; do not edit by hand.
 
 ## Installation
 

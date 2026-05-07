@@ -1,3 +1,5 @@
 # marketplaces/monorepo-marketplace
 
-Everything in this directory except `.claude-plugin/` and `README.md` is a **generated build artifact**. Do not edit plugin bundle directories (`plugins-*/`) directly — changes will be overwritten on the next build. Edit the source packages under `marketplaces/<plugin-name>/` instead.
+Built plugin bundle output. Everything in this directory except `README.md` is a **generated build artifact**. Do not edit `plugins-*/` directly — changes will be overwritten on the next build. Edit source under `marketplaces/<plugin-name>/` instead.
+
+The marketplace registry lives at the repo root (`.claude-plugin/marketplace.json`), not here.

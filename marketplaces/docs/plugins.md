@@ -27,8 +27,8 @@ The system has three layers:
 │  Build system        packages/plugins-base/src/build-pipeline │
 │  (discovery, esbuild, manifest generation)                   │
 ├──────────────────────────────────────────────────────────────┤
-│  Marketplace         marketplaces/monorepo-marketplace/       │
-│  (build output, plugin registry)                             │
+│  Registry            .claude-plugin/marketplace.json          │
+│  Bundle output       marketplaces/monorepo-marketplace/       │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -427,11 +427,9 @@ The marketplace is the bridge between built artifacts and Claude Code's plugin i
 
 ### Structure
 
-The marketplace directory contains:
-- **`.claude-plugin/marketplace.json`** — the plugin registry (committed to git)
-- **`<plugin-name>/`** — build output directories (gitignored)
+The marketplace registry lives at the **repo root** (`.claude-plugin/marketplace.json`). Bundle output lives under `marketplaces/monorepo-marketplace/<plugin-name>/`. The registry must sit at the repo root so a github-source consumer can resolve it without a `path` field — claude code's cache layer has trouble with non-trivial `path` resolution.
 
-The registry lists available plugins:
+The registry:
 
 ```json
 {
@@ -439,14 +437,14 @@ The registry lists available plugins:
   "description": "Claude Code plugins for pnpm monorepos: dev-tools, utility, claude",
   "owner": { "name": "..." },
   "plugins": [
-    { "name": "plugins-utility", "description": "...", "version": "1.0.0", "source": "./plugins-utility" },
-    { "name": "plugins-claude",  "description": "...", "version": "1.0.0", "source": "./plugins-claude" },
-    { "name": "plugins-dev-tools", "description": "...", "version": "1.0.0", "source": "./plugins-dev-tools" }
+    { "name": "plugins-utility",   "description": "...", "version": "1.0.0", "source": "./marketplaces/monorepo-marketplace/plugins-utility"   },
+    { "name": "plugins-claude",    "description": "...", "version": "1.0.0", "source": "./marketplaces/monorepo-marketplace/plugins-claude"    },
+    { "name": "plugins-dev-tools", "description": "...", "version": "1.0.0", "source": "./marketplaces/monorepo-marketplace/plugins-dev-tools" }
   ]
 }
 ```
 
-Each `source` points to a build output directory relative to the marketplace root.
+Each `source` is relative to `.claude-plugin/marketplace.json` (i.e. the repo root) and points at a built bundle directory.
 
 ### Gitignore strategy
 
@@ -468,7 +466,7 @@ The marketplace and its plugins are registered declaratively in `.claude/setting
     "claude-asana": {
       "source": {
         "source": "directory",
-        "path": "./marketplaces/monorepo-marketplace"
+        "path": "."
       }
     }
   },

@@ -12,8 +12,7 @@ Paste this into your project's `.claude/settings.json` (or `~/.claude/settings.j
     "claude-asana": {
       "source": {
         "source": "github",
-        "repo": "pcollinsonline/claude-asana",
-        "path": "marketplaces/monorepo-marketplace"
+        "repo": "pcollinsonline/claude-asana"
       }
     }
   },
@@ -27,13 +26,14 @@ Paste this into your project's `.claude/settings.json` (or `~/.claude/settings.j
 
 Run `claude` and check `/plugin list` — the three plugins should appear and be enabled. No clone, no build, no auth (this repo is public).
 
-To pick a subset, drop entries from `enabledPlugins`. To pin to a specific commit, add `"ref": "<sha>"` next to `"repo"` in the source.
+To pick a subset, drop entries from `enabledPlugins`. To pin to a specific commit or branch, add `"ref": "<sha-or-branch>"` next to `"repo"` in the source.
 
 ## Structure
 
 | Path | Purpose |
 |---|---|
-| `marketplaces/monorepo-marketplace/` | Plugin registry (`marketplace.json`) **and committed bundle output** — what consumers fetch |
+| `.claude-plugin/marketplace.json` | Plugin registry — root-level so the github source resolves with no `path` field |
+| `marketplaces/monorepo-marketplace/` | Committed bundle output (one subdir per plugin) — what consumers fetch |
 | `marketplaces/plugins-claude/` | Plugin source: Claude Code reference docs and README enforcement |
 | `marketplaces/plugins-dev-tools/` | Plugin source: developer workflow skills, agents, and MCP server for pnpm monorepos |
 | `marketplaces/plugins-utility/` | Plugin source: logging hooks for all Claude Code lifecycle events |
@@ -52,7 +52,7 @@ For working on the plugins themselves (rather than consuming them), point your s
     "claude-asana": {
       "source": {
         "source": "directory",
-        "path": "<path-to-this-repo>/marketplaces/monorepo-marketplace"
+        "path": "<path-to-this-repo>"
       }
     }
   },
