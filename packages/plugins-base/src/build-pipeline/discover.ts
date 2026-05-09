@@ -13,8 +13,9 @@
 // It performs no writes and no bundling.
 // ---------------------------------------------------------------------------
 
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 import type {
@@ -62,35 +63,27 @@ export const collectMarkdownFiles = (dir: string): string[] => {
 // ---------------------------------------------------------------------------
 
 /**
- * Stable content hash of every file the build pipeline consumes for this plugin.
+ * Stable content hash of every git-tracked file under the plugin's root.
  * Identical input tree → identical hash on any machine, any time.
+ *
+ * Deferring to `git ls-files` makes gitignore the source of truth for
+ * "what counts as source" — generated artifacts (dist/, .turbo/, coverage/,
+ * tsbuildinfo, etc.) cannot perturb the hash.
  */
 const hashPluginSource = (rootDir: string): string => {
-  const SKIP_DIRS = new Set(['node_modules', 'dist', '.turbo'])
-  const files: string[] = []
-
-  const walk = (dir: string): void => {
-    for (const entry of readdirSync(dir).toSorted()) {
-      const full = path.join(dir, entry)
-      if (statSync(full).isDirectory()) {
-        if (!SKIP_DIRS.has(entry)) walk(full)
-      } else {
-        files.push(full)
-      }
-    }
-  }
-
+  let files: string[]
   try {
-    walk(rootDir)
+    const out = execFileSync('git', ['ls-files', '-z'], { cwd: rootDir, encoding: 'utf8' })
+    files = out.split('\0').filter(Boolean)
   } catch {
     return 'unknown'
   }
 
   const hash = createHash('sha256')
-  for (const file of files.toSorted()) {
-    hash.update(path.relative(rootDir, file))
+  for (const rel of files.toSorted()) {
+    hash.update(rel)
     hash.update('\0')
-    hash.update(readFileSync(file))
+    hash.update(readFileSync(path.join(rootDir, rel)))
     hash.update('\0')
   }
   return hash.digest('hex').slice(0, 8)
