@@ -13,8 +13,8 @@
 // It performs no writes and no bundling.
 // ---------------------------------------------------------------------------
 
-import { execSync } from 'node:child_process'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 
 import type {
@@ -61,13 +61,39 @@ export const collectMarkdownFiles = (dir: string): string[] => {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/** Return the short git SHA of HEAD, or 'unknown' if not in a git repo. */
-const getGitSha = (): string => {
+/**
+ * Stable content hash of every file the build pipeline consumes for this plugin.
+ * Identical input tree → identical hash on any machine, any time.
+ */
+const hashPluginSource = (rootDir: string): string => {
+  const SKIP_DIRS = new Set(['node_modules', 'dist', '.turbo'])
+  const files: string[] = []
+
+  const walk = (dir: string): void => {
+    for (const entry of readdirSync(dir).toSorted()) {
+      const full = path.join(dir, entry)
+      if (statSync(full).isDirectory()) {
+        if (!SKIP_DIRS.has(entry)) walk(full)
+      } else {
+        files.push(full)
+      }
+    }
+  }
+
   try {
-    return execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim()
+    walk(rootDir)
   } catch {
     return 'unknown'
   }
+
+  const hash = createHash('sha256')
+  for (const file of files.toSorted()) {
+    hash.update(path.relative(rootDir, file))
+    hash.update('\0')
+    hash.update(readFileSync(file))
+    hash.update('\0')
+  }
+  return hash.digest('hex').slice(0, 8)
 }
 
 // ---------------------------------------------------------------------------
@@ -331,7 +357,7 @@ export const discoverPlugin = (config: PluginBuildConfig): PluginBuildPlan => {
     description: pkgRaw.description,
     license: pkgRaw.license,
     name: (pkgRaw.name ?? '').replace(/^@[^/]+\//, ''),
-    version: `${pkgRaw.version}+${getGitSha()}`,
+    version: `${pkgRaw.version}+${hashPluginSource(rootDir)}`,
   }
 
   return {
