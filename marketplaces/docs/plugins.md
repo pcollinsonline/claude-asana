@@ -450,7 +450,7 @@ Each `source` is relative to `.claude-plugin/marketplace.json` (i.e. the repo ro
 
 Plugin bundle directories under `marketplaces/monorepo-marketplace/` **are committed** (see `.gitignore` — the global `dist/` rule is overridden for this subtree). This lets external consumers install via the `github` source without cloning + building locally. The global `dist/` rule still applies to in-source build outputs (`marketplaces/plugins-*/dist/`, `packages/*/dist/`).
 
-Trade-off: every commit that changes plugin source produces a bundle diff. Mitigation (planned): a future CI workflow will own bundle commits on merge to `main`, keeping feature-branch diffs source-only.
+Trade-off: every commit that changes plugin source produces a bundle diff. The `.github/workflows/ci.yml` workflow enforces this by rebuilding from source on every PR and failing if the committed bundles differ.
 
 ---
 
@@ -496,7 +496,7 @@ When Claude Code installs a marketplace plugin, it copies the bundle to `~/.clau
 - **Same version** → cached copy is reused, even after uninstall + reinstall (uninstall removes from settings, not from cache)
 - **Different version** → fresh copy is cached on next install
 
-Since `buildPlugin()` appends a `+gitsha` suffix to the version (e.g. `1.0.0+34edf59`), every build produces a distinct version. This means `plugins-refresh.sh` (which builds then reinstalls) correctly picks up changes — the new git SHA triggers a cache refresh.
+Since `buildPlugin()` appends a content-hash suffix to the version (e.g. `1.0.0+34edf59c`), every source change produces a distinct version (identical source produces an identical version). This means `plugins-refresh.sh` (which builds then reinstalls) correctly picks up changes — a source-affecting edit changes the hash and triggers a cache refresh, while a no-op rebuild leaves the version untouched.
 
 For development, use `--plugin-dir` to bypass the cache entirely (see [Development workflow](#development-workflow)).
 

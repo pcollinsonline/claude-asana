@@ -2,5 +2,5 @@
   "description": "Logging hooks for all Claude Code lifecycle events",
   "license": "UNLICENSED",
   "name": "plugins-utility",
-  "version": "1.0.0+7a4ecd7"
+  "version": "1.0.0+029fcf6b"
 }

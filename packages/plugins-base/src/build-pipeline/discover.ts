@@ -13,7 +13,8 @@
 // It performs no writes and no bundling.
 // ---------------------------------------------------------------------------
 
-import { execSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
@@ -61,13 +62,31 @@ export const collectMarkdownFiles = (dir: string): string[] => {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/** Return the short git SHA of HEAD, or 'unknown' if not in a git repo. */
-const getGitSha = (): string => {
+/**
+ * Stable content hash of every git-tracked file under the plugin's root.
+ * Identical input tree → identical hash on any machine, any time.
+ *
+ * Deferring to `git ls-files` makes gitignore the source of truth for
+ * "what counts as source" — generated artifacts (dist/, .turbo/, coverage/,
+ * tsbuildinfo, etc.) cannot perturb the hash.
+ */
+const hashPluginSource = (rootDir: string): string => {
+  let files: string[]
   try {
-    return execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim()
+    const out = execFileSync('git', ['ls-files', '-z'], { cwd: rootDir, encoding: 'utf8' })
+    files = out.split('\0').filter(Boolean)
   } catch {
     return 'unknown'
   }
+
+  const hash = createHash('sha256')
+  for (const rel of files.toSorted()) {
+    hash.update(rel)
+    hash.update('\0')
+    hash.update(readFileSync(path.join(rootDir, rel)))
+    hash.update('\0')
+  }
+  return hash.digest('hex').slice(0, 8)
 }
 
 // ---------------------------------------------------------------------------
@@ -331,7 +350,7 @@ export const discoverPlugin = (config: PluginBuildConfig): PluginBuildPlan => {
     description: pkgRaw.description,
     license: pkgRaw.license,
     name: (pkgRaw.name ?? '').replace(/^@[^/]+\//, ''),
-    version: `${pkgRaw.version}+${getGitSha()}`,
+    version: `${pkgRaw.version}+${hashPluginSource(rootDir)}`,
   }
 
   return {
